@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useBalance } from "wagmi";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,12 +17,15 @@ import {
   Settings,
   BarChart3
 } from "lucide-react";
+import Logo from "@/components/Logo";
+import CreateVaultModal from "@/components/CreateVaultModal";
 
 const Index = () => {
   const { address, isConnected } = useAccount();
   const { data: balance } = useBalance({
     address: address,
   });
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -31,7 +35,9 @@ const Index = () => {
         <div className="container mx-auto px-4 py-16">
           <div className="text-center">
             <div className="mb-8">
-              <Building2 className="mx-auto h-24 w-24 text-purple-400 mb-4" />
+              <div className="flex justify-center mb-4">
+                <Logo size="xl" showText={false} />
+              </div>
               <h1 className="text-6xl font-bold text-white mb-4">
                 Arcane Treasury
               </h1>
@@ -76,10 +82,7 @@ const Index = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <Building2 className="h-8 w-8 text-purple-400" />
-            <h1 className="text-3xl font-bold text-white">Arcane Treasury</h1>
-          </div>
+          <Logo size="md" showText={true} />
           <div className="flex items-center space-x-4">
             <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
               <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
@@ -181,17 +184,25 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
-                  <Building2 className="mx-auto h-16 w-16 text-purple-400 mb-4" />
+                  <div className="flex justify-center mb-4">
+                    <Logo size="lg" showText={false} />
+                  </div>
                   <h3 className="text-xl font-semibold text-white mb-2">Treasury Management Platform</h3>
                   <p className="text-gray-300 mb-6">
                     Manage your digital assets with advanced security features and FHE encryption.
                   </p>
                   <div className="flex justify-center space-x-4">
-                    <Button className="bg-purple-600 hover:bg-purple-700">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Create Vault
-                    </Button>
-                    <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                    <CreateVaultModal>
+                      <Button className="bg-purple-600 hover:bg-purple-700">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Create Vault
+                      </Button>
+                    </CreateVaultModal>
+                    <Button 
+                      variant="outline" 
+                      className="border-white/20 text-white hover:bg-white/10"
+                      onClick={() => navigate("/docs")}
+                    >
                       <Eye className="h-4 w-4 mr-2" />
                       View Documentation
                     </Button>
@@ -204,22 +215,28 @@ const Index = () => {
           <TabsContent value="vaults" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-white">Treasury Vaults</h2>
-              <Button className="bg-purple-600 hover:bg-purple-700">
-                <Plus className="h-4 w-4 mr-2" />
-                Create Vault
-              </Button>
+              <CreateVaultModal>
+                <Button className="bg-purple-600 hover:bg-purple-700">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Vault
+                </Button>
+              </CreateVaultModal>
             </div>
             
             <Card className="bg-white/10 backdrop-blur-lg border-white/20">
               <CardContent className="p-8">
                 <div className="text-center">
-                  <Building2 className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                  <div className="flex justify-center mb-4">
+                    <Logo size="lg" showText={false} />
+                  </div>
                   <h3 className="text-lg font-semibold text-white mb-2">No Vaults Created Yet</h3>
                   <p className="text-gray-400 mb-6">Create your first treasury vault to get started</p>
-                  <Button className="bg-purple-600 hover:bg-purple-700">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create Your First Vault
-                  </Button>
+                  <CreateVaultModal>
+                    <Button className="bg-purple-600 hover:bg-purple-700">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Create Your First Vault
+                    </Button>
+                  </CreateVaultModal>
                 </div>
               </CardContent>
             </Card>
