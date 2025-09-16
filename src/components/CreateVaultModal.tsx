@@ -123,12 +123,26 @@ const CreateVaultModal = ({ children }: CreateVaultModalProps) => {
   };
 
   const isFormValid = () => {
-    return formData.name.trim() !== "" && 
-           formData.description.trim() !== "" && 
-           formData.initialDeposit !== "" && 
-           formData.threshold !== "" &&
-           parseFloat(formData.initialDeposit) > 0 &&
-           parseFloat(formData.threshold) > 0;
+    switch (currentStep) {
+      case 1:
+        return formData.name.trim() !== "" && formData.description.trim() !== "";
+      case 2:
+        return formData.name.trim() !== "" && 
+               formData.description.trim() !== "" && 
+               formData.initialDeposit !== "" && 
+               formData.threshold !== "" &&
+               parseFloat(formData.initialDeposit) > 0 &&
+               parseFloat(formData.threshold) > 0;
+      case 3:
+        return formData.name.trim() !== "" && 
+               formData.description.trim() !== "" && 
+               formData.initialDeposit !== "" && 
+               formData.threshold !== "" &&
+               parseFloat(formData.initialDeposit) > 0 &&
+               parseFloat(formData.threshold) > 0;
+      default:
+        return false;
+    }
   };
 
   const renderStepContent = () => {
@@ -370,7 +384,7 @@ const CreateVaultModal = ({ children }: CreateVaultModalProps) => {
               variant="outline"
               onClick={handlePrevious}
               disabled={currentStep === 1}
-              className="border-white/20 text-white hover:bg-white/10"
+              className="border-white/30 text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </Button>
@@ -380,7 +394,7 @@ const CreateVaultModal = ({ children }: CreateVaultModalProps) => {
                 <Button
                   onClick={handleNext}
                   disabled={!isFormValid()}
-                  className="bg-purple-600 hover:bg-purple-700"
+                  className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </Button>
